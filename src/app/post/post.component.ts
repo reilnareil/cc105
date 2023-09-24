@@ -11,7 +11,7 @@ export class PostComponent implements OnInit {
   @Input() post?: Post;
   @Input() index: number = 0;
 
-  memberName = "Sam";
+  memberName = "Lan";
   constructor(private postService: PostService) { }
 
   ngOnInit(): void {
