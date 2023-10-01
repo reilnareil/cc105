@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { PostService } from '../post.service';
 import { Post } from '../post.model';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 @Component({
   selector: 'app-post-edit',
   templateUrl: './post-edit.component.html',
@@ -10,13 +10,34 @@ import { Router } from '@angular/router';
 })
 export class PostEditComponent implements OnInit {
   form!: FormGroup;
-  constructor(private postService: PostService, private router: Router) { }
+  index: number = 0;
+  editMode = false;
+
+  constructor(private postService: PostService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+
+    let title = '';
+    let description = '';
+    let imgPath = '';
+    this.route.params.subscribe((params: Params) => {
+      if (params['index']) {
+        console.log(params['index']);
+
+        this.index = params['index'];
+        const post = this.postService.getPost(this.index);
+        title = post.title;
+        description = post.description;
+        imgPath = post.imgPath;
+
+        this.editMode = true;
+      }
+    });
+
     this.form = new FormGroup({
-      title: new FormControl(null, [Validators.required]),
-      description: new FormControl(null, [Validators.required]),
-      imgPath: new FormControl(null, [Validators.required]),
+      title: new FormControl(title, [Validators.required]),
+      description: new FormControl(description, [Validators.required]),
+      imgPath: new FormControl(imgPath, [Validators.required]),
     });
   }
   onSubmit() {
@@ -28,8 +49,17 @@ export class PostEditComponent implements OnInit {
     const post: Post = new Post(
       title, imgPath, description, 'test@tes.com', new Date()
     );
+
     //calling service
-    this.postService.addPost(post);
+    if (this.editMode) {
+      this.postService.updatePost(this.index, post)
+    }
+    else {
+      this.postService.addPost(post);
+    }
+
+
+
 
     //navigate ti post-list
     this.router.navigate(["/post-list"])

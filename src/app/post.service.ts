@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Post } from './post.model';
 
+
 @Injectable({ providedIn: 'root' })
 export class PostService {
+
   listOfPosts: Post[] = [
     new Post("Tech Crunch", "https://www.hostinger.com/tutorials/wp-content/uploads/sites/2/2021/12/techcrunch-website-homepage-1024x542.webp",
       "TechCrunch is a blog that provides technology and startup news, from the latest developments in Silicon Valley to venture capital funding.  The blog’s target audience is technology and business enthusiasts, especially startup founders and investors worldwide.",
@@ -25,5 +27,8 @@ export class PostService {
   }
   updatePost(index: number, post: Post) {
     this.listOfPosts[index] = post;
+  }
+  getPost(index: number) {
+    return this.listOfPosts[index];
   }
 }
