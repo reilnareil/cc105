@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./post.component.css']
 })
 export class PostComponent implements OnInit {
+
   @Input() post?: Post;
   @Input() index: number = 0;
 
@@ -27,6 +28,9 @@ export class PostComponent implements OnInit {
   onEdit() {
     console.log("onEdit is working!");
     this.router.navigate(["/post-edit", this.index])
+  }
+  likePost() {
+    this.postService.likePost(this.index);
   }
 }
 

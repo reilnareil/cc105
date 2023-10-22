@@ -47,7 +47,7 @@ export class PostEditComponent implements OnInit {
 
     //ready with object
     const post: Post = new Post(
-      title, imgPath, description, 'test@tes.com', new Date()
+      title, imgPath, description, 'test@tes.com', new Date(), 0
     );
 
     //calling service
@@ -57,10 +57,6 @@ export class PostEditComponent implements OnInit {
     else {
       this.postService.addPost(post);
     }
-
-
-
-
     //navigate ti post-list
     this.router.navigate(["/post-list"])
   }
